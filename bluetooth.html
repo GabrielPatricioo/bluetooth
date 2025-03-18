@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conectar Fone Bluetooth</title>
+</head>
+<body>
+    <h1>Teste de Conexão com Fone Bluetooth</h1>
+    <button id="connectButton">Conectar ao Fone Bluetooth</button>
+
+    <script>
+        // Código JavaScript para conectar o fone Bluetooth
+        document.getElementById('connectButton').addEventListener('click', () => {
+            if ('bluetooth' in navigator) {
+                // Solicita ao usuário para selecionar o dispositivo Bluetooth
+                navigator.bluetooth.requestDevice({
+                    filters: [{ services: ['audio'] }] // Filtra dispositivos de áudio
+                })
+                .then(device => {
+                    console.log('Dispositivo encontrado:', device);
+                    // Conecta ao dispositivo selecionado
+                    return device.gatt.connect();
+                })
+                .then(server => {
+                    console.log('Conectado ao GATT Server');
+                    // Você pode começar a interagir com o dispositivo Bluetooth aqui.
+                })
+                .catch(error => {
+                    console.log('Erro ao conectar:', error);
+                });
+            } else {
+                console.log('API Web Bluetooth não é suportada neste navegador.');
+            }
+        });
+    </script>
+</body>
+</html>
